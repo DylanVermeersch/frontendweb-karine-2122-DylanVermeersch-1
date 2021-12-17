@@ -1,8 +1,15 @@
 import { MdDeleteForever, MdEditNote } from 'react-icons/md';
-import EditNote from "./EditNote";
-import { Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { memo, useCallback, useContext } from "react";
+import { NotesContext } from "../contexts/NotesProvider";
 
-const Note = ({id, title, text, date, handleDeleteNote, handleEditNote }) => {
+const Note = memo(({ id, title, text, date }) => {
+  const { deleteNote } = useContext(NotesContext);
+
+  const handleDeleteNote = useCallback(() => {
+    deleteNote(id);
+  }, [deleteNote, id]);
+
   return (
     <div className="note">
       <div className="note-header">{title}</div>
@@ -10,22 +17,19 @@ const Note = ({id, title, text, date, handleDeleteNote, handleEditNote }) => {
       <div className="note-footer">
         <small>{date}</small>
         <div className="icons">
-          <MdEditNote onClick = { 
-            <Switch>
-              <Route path="edit/:id"> 
-                <EditNote 
-                  note = {{id, title, text, date}}
-                  handleEditNote = {handleEditNote} /> 
-              </Route>
-            </Switch>
-            }
-            className="edit-icon" size="1.3em" /> 
+          <Link 
+            className="button"
+            data-cy="note_edit_btn"
+            to={`/notes/edit/${id}`}
+          >
+            <MdEditNote /> 
+          </Link>
           <MdDeleteForever onClick = {() => handleDeleteNote(id)} 
             className="delete-icon" size="1.3em" />
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default Note;

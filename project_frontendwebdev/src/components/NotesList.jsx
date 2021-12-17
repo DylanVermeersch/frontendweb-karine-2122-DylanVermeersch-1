@@ -1,19 +1,43 @@
 import Note from "./Note";
-import AddNote from "./AddNote";
+import React, { useContext, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { NotesContext } from "..Contexts/NotesProvider";
 
-const NotesList = ({notes, handleAddNote, handleDeleteNote, handleEditNote}) => {
+const NotesList = ({ search }) => {
+  const { notes, error, loading } = useContext(NotesContext);
+
+  const filteredNotes = useMemo(() => {
+    return notes.filter((note) => {
+      return note.title.toLowerCase().includes(search.toLowerCase());
+    });
+  }, [notes, search]);
+
+  if (loading) return <h1 data-cy="loading">Loading...</h1>;
+
+  if (error) {
+    return (
+      <p data-cy="notes_error" className="error">
+        { JSON.stringify(error, null, 2) }
+      </p>
+    );
+  }
+
+  if (!notes || !notes.length) {
+    return (
+      <p>
+        <span>There are no notes</span>
+        <Link to="add" className="button">
+          Create one
+        </Link>
+      </p>
+    );
+  }
+
   return (
     <div className="notes-list">
-      {notes.map((note) => (
-      <Note 
-        id = {note.id}
-        title = {note.title}
-        text = {note.text} 
-        date = {note.date}  
-        handleDeleteNote = {handleDeleteNote}
-        handleEditNote = {handleEditNote} />
-      ))}
-      <AddNote handleAddNote = {handleAddNote}/>
+      { filteredNotes.map((note) => {
+        return <Note key={note.id} {...note} />;
+      }) }
     </div>
   );
 };

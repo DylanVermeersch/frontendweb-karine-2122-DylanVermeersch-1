@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { memo, useCallback, useContext } from "react";
 import { NotesContext } from "../contexts/NotesProvider";
 
-const Note = memo(({ id, title, text, date }) => {
+const Note = memo(({ id, title, text, date, userId }) => {
   const { deleteNote } = useContext(NotesContext);
 
   const handleDeleteNote = useCallback(() => {

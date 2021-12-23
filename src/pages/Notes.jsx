@@ -36,7 +36,7 @@ export default function Notes() {
                     className="btn-add-note"
                     to="/notes/add" 
                 >
-                    <MdAdd /> New note
+                    <MdAdd />
                 </Link>    
             </div>
             <NotesList search={search} /> 

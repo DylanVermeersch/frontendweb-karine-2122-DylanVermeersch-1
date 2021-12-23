@@ -1,7 +1,8 @@
 import Note from "./Note";
 import React, { useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { NotesContext } from "..Contexts/NotesProvider";
+import { NotesContext } from "../contexts/NotesProvider";
+import ErrorMessage from './ErrorMessage';
 
 const NotesList = ({ search }) => {
   const { notes, error, loading } = useContext(NotesContext);
@@ -16,9 +17,7 @@ const NotesList = ({ search }) => {
 
   if (error) {
     return (
-      <p data-cy="notes_error" className="error">
-        { JSON.stringify(error, null, 2) }
-      </p>
+     <ErrorMessage error={error} />
     );
   }
 

@@ -1,7 +1,5 @@
 import React from 'react'
 import {
-    UilArrowUp, 
-    UilArrowDown, 
     UilTemperature, 
     UilTear, 
     UilWind, 
@@ -60,7 +58,6 @@ function TemperatureAndDetails({weather: {
             <p className='font-light'>
                 Low: <span className='font-medium ml-1'>{`${temp_min.toFixed()}°`}</span>
             </p>
-            <p className='font-light'>|</p>
         </div>
     </div>
   )

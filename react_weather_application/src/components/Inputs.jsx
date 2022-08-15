@@ -6,7 +6,10 @@ function Inputs({setQuery, units, setUnits}) {
     const [city, setCity] = useState('');
 
     const handleSearchClick = () => {
-        if (city !== '') setQuery({q: city});
+        if (city !== '') {
+            setQuery({q: city});
+            setCity('');
+        }
     };
 
     const handleLocationClick = () => {
@@ -32,7 +35,8 @@ function Inputs({setQuery, units, setUnits}) {
             type='text' 
             className='text-xl font-light p-2 w-full shadow-xl focus:outline-none capitalize placeholder:lowercase'
             placeholder='Search for city...' 
-            onChange = {(e) => setCity(e.currentTarget.value)}/>
+            onChange = {(e) => setCity(e.currentTarget.value)}
+            value = {city}/>
 
             <IoSearchOutline size={25} className='text-white cursor-pointer transition ease-out hover:scale-125' 
             onClick = {handleSearchClick}/>

@@ -2,12 +2,13 @@ import React from 'react'
 import { useState } from 'react';
 import {IoSearchOutline, IoLocationOutline} from 'react-icons/io5'
 
-function Inputs({setQuery, units, setUnits}) {
+function Inputs({setQuery, units, setUnits, setLoading}) {
     const [city, setCity] = useState('');
 
     const handleSearchClick = () => {
         if (city !== '') {
             setQuery({q: city});
+            setLoading(true);
             setCity('');
         }
     };
@@ -19,13 +20,17 @@ function Inputs({setQuery, units, setUnits}) {
                 let lon = position.coords.longitude;
 
                 setQuery({lat, lon});
+                setLoading(true);
             });
         }
     };
 
     const handleUnitsChange = (e) => {
         const selectedUnit = e.currentTarget.name;
-        if (units !== selectedUnit) setUnits(selectedUnit);
+        if (units !== selectedUnit) {
+            setUnits(selectedUnit);
+            setLoading(true);
+        }
     };
 
     return (

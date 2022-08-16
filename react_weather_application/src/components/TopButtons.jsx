@@ -1,26 +1,26 @@
 import React from 'react'
 
-function TopButtons({setQuery}) {
+function TopButtons({setQuery, setLoading}) {
     const cities = [
         {
             id: 1,
-            title: 'London'
+            title: 'New York'
         },
         {
             id: 2,
-            title: 'Sydney'
+            title: 'Canberra'
         },
         {
             id: 3,
-            title: 'Tokyo'
+            title: 'Brugge'
         },
         {
             id: 4,
-            title: 'Toronto'
+            title: 'Madrid'
         },
         {
             id: 5,
-            title: 'Paris'
+            title: 'Moscow'
         },
         
     ]
@@ -31,7 +31,10 @@ function TopButtons({setQuery}) {
             cities.map((city) => (
                 <button key={city.id} 
                 className='text-white text-lg font-medium'
-                onClick = {() => setQuery({q: city.title})}>
+                onClick = {() => {
+                    setQuery({q: city.title});
+                    setLoading(true);
+                    }}>
                     {city.title}
                 </button>
             ))

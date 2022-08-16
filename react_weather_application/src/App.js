@@ -10,7 +10,8 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [query, setQuery] = useState({q: 'brussels'});
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState({q: 'ghent'});
   const [units, setUnits] = useState('metric');
   const [weather, setWeather] = useState(null);
 
@@ -20,8 +21,16 @@ function App() {
       
       toast.info('Fetching weather for ' + message);
       await getFormattedWeatherData({...query, units}).then((data) => {
-        toast.success(`Succesfully fetched weather for ${data.name}, ${data.country}.`);
-        setWeather(data);
+        if (data instanceof String){
+          setQuery({q: 'ghent'});
+          toast.info('Fetching weather for ' + query.q);
+          fetchWeather();
+        }
+        else {
+          toast.success(`Succesfully fetched weather for ${data.name}, ${data.country}.`);
+          setWeather(data);
+        }
+        setLoading(false);
       });
     };
 
@@ -38,8 +47,16 @@ function App() {
 
   return(
   <div className={`mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br ${formatBackground()} h-fit shadow-xl shadow-gray-400`}>
-    <TopButtons setQuery = {setQuery}/>
-    <Inputs setQuery = {setQuery} units = {units} setUnits = {setUnits}/>
+    <TopButtons setQuery = {setQuery} setLoading = {setLoading} />
+    <Inputs setQuery = {setQuery} units = {units} setUnits = {setUnits} setLoading = {setLoading} />
+
+    {loading && (
+      <div className='flex items-center justify-center my-3'>
+      <h1 className='text-white text-3xl font-medium'>
+        Loading...
+      </h1>
+    </div>
+    )}
 
     {weather && (
       <div>

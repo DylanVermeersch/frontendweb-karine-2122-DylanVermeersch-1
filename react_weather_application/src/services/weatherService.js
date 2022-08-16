@@ -1,4 +1,5 @@
 import {DateTime} from 'luxon';
+import {toast} from 'react-toastify';
 
 const API_KEY = 'e7a90afe281296f42d13ad88d019073d';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
@@ -11,20 +12,25 @@ const getWeatherData = (infoType, searchParams) => {
 };
 
 const formatCurrentWeather = (data) => {
-    const {
-        coord: {lat, lon},
-        main: {temp, feels_like, temp_min, temp_max, humidity}, 
-        name, 
-        dt, 
-        sys: {country, sunrise, sunset}, 
-        weather, 
-        wind: {speed}
-    } = data;
-
-    const {main: details, icon} = weather[0];
-
-    return {lat, lon, temp, feels_like, temp_min, temp_max, humidity, 
-    name, dt, country, sunrise, sunset, details, icon, speed};
+    try {
+        const {
+            coord: {lat, lon},
+            main: {temp, feels_like, temp_min, temp_max, humidity}, 
+            name, 
+            dt, 
+            sys: {country, sunrise, sunset}, 
+            weather, 
+            wind: {speed}
+        } = data;
+    
+        const {main: details, icon} = weather[0];
+    
+        return {lat, lon, temp, feels_like, temp_min, temp_max, humidity, 
+        name, dt, country, sunrise, sunset, details, icon, speed};
+    } catch {
+        toast.error(`${data.message}`);
+        return data.message;
+    }
 }
 
 const formatForecastWeather = (data) => {
@@ -49,9 +55,14 @@ const formatForecastWeather = (data) => {
 };
 
 const getFormattedWeatherData = async (searchParams) => {
-    const formatedCurrentWeather = await getWeatherData ('weather', searchParams).then(formatCurrentWeather);
-    
-    const {lat, lon} = formatedCurrentWeather;
+    let formattedCurrentWeather = await getWeatherData ('weather', searchParams).then(formatCurrentWeather);
+
+    if (typeof formattedCurrentWeather === 'string'){
+        searchParams.q = 'ghent';
+        formattedCurrentWeather = await getWeatherData('weather', searchParams).then(formatCurrentWeather);
+    }
+
+    const {lat, lon} = formattedCurrentWeather;
 
     const formattedForecastWeather = await getWeatherData('onecall', {
         lat,
@@ -60,7 +71,7 @@ const getFormattedWeatherData = async (searchParams) => {
         units: searchParams.units
     }).then(formatForecastWeather)
     
-    return {...formatedCurrentWeather, ...formattedForecastWeather};
+    return {...formattedCurrentWeather, ...formattedForecastWeather};
 };
 
 const formatToLocalTime = (

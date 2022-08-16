@@ -23,7 +23,6 @@ function App() {
       await getFormattedWeatherData({...query, units}).then((data) => {
         if (data instanceof String){
           setQuery({q: 'ghent'});
-          toast.info('Fetching weather for ' + query.q);
           fetchWeather();
         }
         else {
@@ -52,7 +51,7 @@ function App() {
 
     {loading && (
       <div className='flex items-center justify-center my-3'>
-      <h1 className='text-white text-3xl font-medium'>
+      <h1 data-cy='loading_screen' className='text-white text-3xl font-medium'>
         Loading...
       </h1>
     </div>
@@ -61,7 +60,7 @@ function App() {
     {weather && (
       <div>
         <TimeAndLocation weather = {weather}/>
-        <TemperatureAndDetails weather = {weather}/>
+        <TemperatureAndDetails weather = {weather} units = {units} />
 
         <Forecast title = {'hourly forecast'} items = {weather.hourly}/>
         <Forecast title = {'daily forecast'} items = {weather.daily}/>

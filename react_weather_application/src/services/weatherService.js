@@ -1,12 +1,13 @@
 import {DateTime} from 'luxon';
 import {toast} from 'react-toastify';
+import config from '../config.json';
 
-const API_KEY = 'e7a90afe281296f42d13ad88d019073d';
-const BASE_URL = 'https://api.openweathermap.org/data/2.5';
+const API_KEY_PRIVATE = config.api_key;
+const BASE_URL_API = config.base_url;
 
 const getWeatherData = (infoType, searchParams) => {
-    const url = new URL(BASE_URL + '/' + infoType);
-    url.search = new URLSearchParams({...searchParams, appid:API_KEY});
+    const url = new URL(BASE_URL_API + '/' + infoType);
+    url.search = new URLSearchParams({...searchParams, appid:API_KEY_PRIVATE});
 
     return fetch(url).then((res) => res.json());
 };

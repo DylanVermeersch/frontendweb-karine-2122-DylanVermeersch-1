@@ -2,7 +2,7 @@
   "name": "react_weather_application",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://DylanVermeersch.github.io/frontendweb-karine-2122-DylanVermeersch/",
+  "homepage": "https://DylanVermeersch.github.io/HOGENT-Web/frontendweb-karine-2122-DylanVermeersch/",
   "dependencies": {
     "@iconscout/react-unicons": "^1.1.6",
     "@testing-library/jest-dom": "^5.14.1",

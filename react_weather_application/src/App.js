@@ -62,8 +62,8 @@ function App() {
         <TimeAndLocation weather = {weather}/>
         <TemperatureAndDetails weather = {weather} units = {units} />
 
-        <Forecast title = {'hourly forecast'} items = {weather.hourly}/>
-        <Forecast title = {'daily forecast'} items = {weather.daily}/>
+        <Forecast title = {'hourly forecast'} items = {weather.hourly} />
+        <Forecast title = {'daily forecast'} items = {weather.daily} />
       </div>
     )}
     <ToastContainer autoClose={3000} theme='colored' newestOnTop={true} />
